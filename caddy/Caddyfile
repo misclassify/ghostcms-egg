@@ -1,0 +1,12 @@
+{
+    http_port 
+    https_port 
+	admin off
+}
+
+# You can replace :<port> with a domain such as "example.com", to where only requests from that host will be routed. 
+example.com {
+	encode zstd gzip
+
+	reverse_proxy localhost:2368
+}

@@ -1,2 +1,3 @@
-# ghostcms-egg
-Ghost CMS Egg for Pterodactyl
+# pterodactyl-ghost
+
+Pterodactyl egg for <https://ghost.org/>
