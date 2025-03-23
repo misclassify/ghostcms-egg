@@ -3,9 +3,9 @@
         "version": "PTDL_v1"
     },
     "name": "Ghost CMS",
-    "author": "Razboy20@razboy.dev",
-    "description": "Runs a Ghost CMS Web Server through pterodactyl.",
-    "image": "ghcr.io/razboy20/pterodactyl-ghost:main",
+    "author": "misclassifyy@gmail.com",
+    "description": "Runs a Ghost CMS website with Caddy as a reverse proxy via Pterodactyl.",
+    "image": "ghcr.io/misclassifg/ghostcms-egg:main",
     "startup": "{{STARTUP_CMD}}",
     "config": {
         "files": "{\r\n    \"caddy/Caddyfile\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"    http_port \": \"    http_port {{server.build.default.port}}\",\r\n            \"    https_port \": \"    https_port {{server.build.default.port}}\",\r\n            \"example.com {\": \":{{server.build.default.port}} {\"\r\n        }\r\n    }\r\n}",
@@ -15,17 +15,53 @@
     },
     "scripts": {
         "installation": {
-            "script": "apk --no-cache add git\r\ncd \/mnt\/server\/\r\ngit clone https:\/\/github.com\/razboy20\/pterodactyl-ghost .\/temp\r\nchmod +x .\/temp\/install.sh\r\n\r\n.\/temp\/install.sh\r\n\r\nrm -rf .\/temp",
-            "container": "node:18-alpine",
+            "script": "apk --no-cache add git\ncd /mnt/server/\ngit clone https://github.com/misclassify/ghostcms-egg ./temp\nchmod +x ./temp/install.sh\n\n./temp/install.sh {{DB_HOST}} {{DB_USERNAME}} {{DB_PASSWORD}} {{DB_NAME}}\n\nrm -rf ./temp",
+            "container": "alpine:latest",
             "entrypoint": "ash"
         }
     },
     "variables": [
         {
             "name": "Startup Command",
-            "description": "The command to start",
+            "description": "Command to start Ghost CMS",
             "env_variable": "STARTUP_CMD",
             "default_value": "./start.sh",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "present"
+        },
+        {
+            "name": "Database Host",
+            "description": "Database host (MySQL or MariaDB)",
+            "env_variable": "DB_HOST",
+            "default_value": "127.0.0.1:3306",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "present"
+        },
+        {
+            "name": "Database Username",
+            "description": "Database username with proper permissions",
+            "env_variable": "DB_USERNAME",
+            "default_value": "root",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "present"
+        },
+        {
+            "name": "Database Password",
+            "description": "Password for the database user",
+            "env_variable": "DB_PASSWORD",
+            "default_value": "securepassword",
+            "user_viewable": 1,
+            "user_editable": 1,
+            "rules": "present"
+        },
+        {
+            "name": "Database Name",
+            "description": "Database name for Ghost CMS",
+            "env_variable": "DB_NAME",
+            "default_value": "ghost",
             "user_viewable": 1,
             "user_editable": 1,
             "rules": "present"
