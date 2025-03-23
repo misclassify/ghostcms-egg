@@ -5,7 +5,7 @@
     "name": "Ghost CMS",
     "author": "misclassifyy@gmail.com",
     "description": "Runs a Ghost CMS website with Caddy as a reverse proxy via Pterodactyl.",
-    "image": "ghcr.io/misclassifg/ghostcms-egg:main",
+    "image": "ghcr.io/misclassify/ghostcms-egg:main",
     "startup": "{{STARTUP_CMD}}",
     "config": {
         "files": "{\r\n    \"caddy/Caddyfile\": {\r\n        \"parser\": \"file\",\r\n        \"find\": {\r\n            \"    http_port \": \"    http_port {{server.build.default.port}}\",\r\n            \"    https_port \": \"    https_port {{server.build.default.port}}\",\r\n            \"example.com {\": \":{{server.build.default.port}} {\"\r\n        }\r\n    }\r\n}",
