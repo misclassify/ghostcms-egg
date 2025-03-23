@@ -1,12 +1,20 @@
 {
-    http_port 
-    https_port 
-	admin off
+    http_port 80
+    https_port 443
+    admin off
 }
 
-# You can replace :<port> with a domain such as "example.com", to where only requests from that host will be routed. 
-example.com {
-	encode zstd gzip
+# Replace `example.com` with your domain or leave as `:80` to allow it to listen on all hosts for testing.
+:80 {
+    encode zstd gzip
 
-	reverse_proxy localhost:2368
+    # Redirect HTTP to HTTPS automatically
+    redir https://{host}{uri} permanent
+}
+
+# Replace `example.com` with your actual domain if you have one
+example.com {
+    encode zstd gzip
+
+    reverse_proxy localhost:2368
 }
